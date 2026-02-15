@@ -102,6 +102,6 @@ Si l'option choisie echoue :
 
 1. **Toujours proposer les 3 options** -- Meme si une semble evidente.
 2. **Jamais de decision unilaterale** -- L'utilisateur choisit toujours.
-3. **Documenter** -- Stocker dans SHODH : probleme + option choisie + resultat.
+3. **Documenter** -- Stocker en memoire : probleme + option choisie + resultat.
 4. **Re-plan = full pipeline** -- Ne pas skipper les etapes.
 5. **Rollback = confirmation** -- Ne JAMAIS executer git reset/revert sans confirmation explicite.

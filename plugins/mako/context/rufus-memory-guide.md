@@ -1,88 +1,94 @@
-# SHODH Memory -- Guide complet
+# mcp-memory-service -- Guide complet
 
-Systeme cognitif avec memoire 3-tiers, apprentissage hebbien, et knowledge graph. Serveur Rust local sur `localhost:3030`, expose via MCP (`@shodh/memory-mcp`). `user_id: "rufus"`.
+Service Python avec backend SQLite-Vec pour memoire persistante. Stocke dans `~/.shinra/memory.db`. Expose via MCP (stdio, pas de serveur HTTP).
+
+## Outils MCP disponibles
+
+| Outil | Usage | Quand |
+|-------|-------|-------|
+| `store_memory` | Stocker une information | Apres chaque phase, decision, pattern |
+| `retrieve_memory` | Recherche semantique | Debut de workflow, "ou on en est" |
+| `search_by_tag` | Filtrer par tags | Chercher par projet, par type |
+| `list_memories` | Lister avec pagination | Explorer toutes les memoires |
+| `delete_memory` | Supprimer par hash | Nettoyer les memoires obsoletes |
+| `check_database_health` | Etat du service | Debug, verification |
 
 ## Types de memoire MAKO
 
-| Type SHODH | Usage MAKO | Quand stocker |
-|------------|------------|---------------|
-| `Observation` | Etat du projet, features implementees | Apres chaque phase |
-| `Decision` | Choix d'architecture, stack, patterns | Apres Reeve/Scarlet |
-| `Learning` | Patterns appris, bonnes pratiques | Apres Sephiroth |
-| `Error` | Bugs trouves, causes racines | Apres fix-bug |
-| `Context` | Workflow en cours, progression | Debut/fin de workflow |
-| `Pattern` | Patterns recurrents cross-projets | Quand confirme |
+Utiliser le champ `memory_type` :
 
-## Memoire episodique -- chainer les workflows
+| Type | Usage MAKO | Quand stocker |
+|------|------------|---------------|
+| `observation` | Etat du projet, features implementees | Apres chaque phase |
+| `decision` | Choix d'architecture, stack, patterns | Apres Reeve/Scarlet |
+| `learning` | Patterns appris, bonnes pratiques | Apres Sephiroth |
+| `error` | Bugs trouves, causes racines | Apres fix-bug |
+| `context` | Workflow en cours, progression | Debut/fin de workflow |
+| `pattern` | Patterns recurrents cross-projets | Quand confirme |
 
-Chaque workflow MAKO = 1 episode. Chaque phase d'agent = 1 sequence dans l'episode.
-
-Rufus genere l'`episode_id` au debut du workflow : `<project>-<workflow>-<counter>`.
+## Stocker une memoire
 
 ```
-remember(
-  content: "Reno: 127 tests, 7 modules, 0 failures",
-  memory_type: "Observation",
-  tags: ["project:endless-sea", "phase:reno"],
-  episode_id: "endless-sea-create-001",
-  sequence_number: 5
-)
-```
-
-## Au debut d'un workflow (ou "ou on en est")
-
-Retrieve le state du projet :
-```
-recall(
-  query: "<nom-du-projet>",
-  mode: "semantic",
-  n_results: 3
-)
-```
-
-Ou pour un resume condense des decisions et learnings recents :
-```
-context_summary()
-```
-
-## Apres chaque phase d'agent terminee
-
-```
-remember(
+store_memory(
   content: "<projet> | <agent>: <resume 1-2 lignes> | next: <prochaine etape>",
-  memory_type: "Observation",
-  tags: ["project:<nom>", "phase:<agent>"],
-  episode_id: "<episode-id-en-cours>",
-  sequence_number: <n>
+  memory_type: "observation",
+  tags: ["project:<nom>", "phase:<agent>"]
+)
+```
+
+## Rechercher en memoire
+
+Recherche semantique (trouve du contenu conceptuellement proche) :
+```
+retrieve_memory(
+  query: "<nom-du-projet> architecture decisions",
+  n_results: 5
+)
+```
+
+Recherche par tags (filtrage exact) :
+```
+search_by_tag(
+  tags: ["project:<nom>"]
 )
 ```
 
 ## Stocker une decision architecturale
 
 ```
-remember(
+store_memory(
   content: "<decision concise>",
-  memory_type: "Decision",
-  tags: ["project:<nom>"]
+  memory_type: "decision",
+  tags: ["project:<nom>", "architecture"]
 )
 ```
 
 ## Stocker un pattern ou une erreur apprise
 
 ```
-remember(
+store_memory(
   content: "<pattern ou erreur>",
-  memory_type: "Learning",  // ou "Error"
-  tags: ["project:<nom>"]
+  memory_type: "learning",
+  tags: ["project:<nom>", "pattern"]
 )
 ```
 
-## Decay et consolidation
+## Correspondance SHODH -> mcp-memory-service
 
-- Pas d'action manuelle -- shodh-memory gere le decay automatiquement
-- Memoires frequemment accedees se renforcent (Hebbian) : A(t) = A0 * e^(-lambda*t)
-- Memoires inutilisees decroissent naturellement
-- `consolidate()` disponible pour maintenance manuelle si necessaire
+| Ancien (SHODH) | Nouveau (mcp-memory-service) | Notes |
+|-----------------|------------------------------|-------|
+| `remember()` | `store_memory()` | `memory_type` remplace `type` |
+| `recall()` | `retrieve_memory()` | Recherche semantique |
+| `context_summary()` | `retrieve_memory(query: "<projet>")` | Pas d'equivalent direct |
+| `proactive_context()` | `retrieve_memory()` | Pas d'equivalent direct |
+| `memory_stats()` | `check_database_health()` | Stats du service |
+| `list_memories()` | `list_memories()` | Nom identique |
+| `verify_index()` | `check_database_health()` | Inclus dans health check |
+| `list_todos()` | -- | Pas d'equivalent (utiliser tags) |
+| `list_reminders()` | -- | Pas d'equivalent (utiliser tags) |
+| `token_status()` | -- | Pas d'equivalent |
+| -- | `search_by_tag()` | Nouveau, recherche par tags |
+| -- | `delete_memory()` | Nouveau, suppression par hash |
 
 ## Regles memoire
 
@@ -90,7 +96,7 @@ remember(
 2. **Jamais de code** -- Stocker le "quoi" et le "pourquoi", pas le "comment"
 3. **Max 200 tokens par store** -- Si c'est plus long, c'est trop
 4. **Les subagents ne touchent pas la memoire** -- Seul Rufus store/retrieve
-5. **Un episode_id par workflow** -- sequencage automatique des phases
-6. **Types stricts** -- utiliser la taxonomie SHODH ci-dessus
-7. **`context_summary()`** -- pour le recall de debut de session (economique en tokens)
+5. **Tags obligatoires** -- Toujours taguer avec `project:<nom>` au minimum
+6. **Types stricts** -- Utiliser la taxonomie ci-dessus
+7. **`retrieve_memory()`** -- Pour le recall de debut de session
 8. **Ne pas retrieve a chaque message** -- Seulement en debut de workflow ou sur demande explicite
