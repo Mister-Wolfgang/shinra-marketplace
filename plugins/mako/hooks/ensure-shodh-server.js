@@ -33,12 +33,12 @@ const { pipeline } = require("stream/promises");
 // ---------------------------------------------------------------------------
 
 const PLUGIN_DIR = path.join(__dirname, "..");
-const CONFIG_PATH = path.join(PLUGIN_DIR, "servers", "shodh-memory", "shodh-config.json");
 const MCP_JSON_PATH = path.join(PLUGIN_DIR, ".mcp.json");
 
 const SHODH_HOME = path.join(os.homedir(), ".shodh");
 const BIN_DIR = path.join(SHODH_HOME, "bin");
 const STORAGE_PATH = path.join(SHODH_HOME, "data");
+const CONFIG_PATH = path.join(SHODH_HOME, "shodh-config.json");
 
 const PLATFORM = os.platform(); // win32 | linux | darwin
 const ARCH = os.arch(); // x64 | arm64
@@ -1016,7 +1016,19 @@ async function main() {
       return;
     }
     log("Health OK but API key mismatch -- forcing restart with correct key");
-    // Kill the running process so we can restart with the correct API key
+    // Stop the SERVICE first (not just the process) to prevent NSSM from
+    // auto-restarting the process with the old key.
+    if (PLATFORM === "win32" && serviceStatus.exists) {
+      try {
+        winExec(`powershell -NoProfile -Command "Stop-Service -Name '${SERVICE_NAME_WIN}' -Force -ErrorAction SilentlyContinue"`,
+          { windowsHide: true, timeout: 15000, stdio: "pipe" });
+        log("Windows service stopped");
+      } catch {
+        // If Stop-Service fails (no admin), fall back to killing the process
+        log("Stop-Service failed, falling back to Stop-Process");
+      }
+    }
+    // Kill any remaining process
     try {
       if (PLATFORM === "win32") {
         winExec(
