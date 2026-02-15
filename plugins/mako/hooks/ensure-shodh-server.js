@@ -857,6 +857,8 @@ function syncMcpConfig(config) {
       SHODH_API_KEY: config.api_key,
       SHODH_API_URL: `http://${config.host}:${config.port}`,
       SHODH_USER_ID: config.user_id || "rufus",
+      SHODH_NO_AUTO_SPAWN: "true",
+      SHODH_STREAM: "false",
     },
   };
 
