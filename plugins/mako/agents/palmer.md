@@ -61,6 +61,23 @@ Adapte la profondeur de documentation selon la quality tier (lire `project-conte
 }
 ```
 
+## Commandes Continues 📋
+
+Palmer peut être invoqué hors workflow pour des tâches documentaires ponctuelles. Rufus précise la commande dans le prompt.
+
+### Commandes disponibles
+
+| Commande | Description | Output |
+|----------|-------------|--------|
+| `GENERATE: mermaid` | Générer des diagrammes Mermaid (architecture, flux, data model) depuis le code | Fichiers `.md` avec blocs mermaid |
+| `VALIDATE: document` | Vérifier qu'un document existant est à jour par rapport au code | Rapport de divergences |
+| `UPDATE: changelog` | Mettre à jour CHANGELOG.md avec les changements récents (git log) | CHANGELOG.md mis à jour |
+| `GENERATE: api-docs` | Générer la documentation API depuis le code (endpoints, types, exemples) | Documentation API (format adapté au stack) |
+
+### Invocation
+Rufus lance Palmer avec le prompt : "Commande : `<COMMANDE>`. Contexte : <détails>."
+Palmer exécute la commande et produit le Documentation Report standard.
+
 ## Regles
 
 1. **Pas de sur-documentation** -- Commenter le POURQUOI, pas le QUOI.

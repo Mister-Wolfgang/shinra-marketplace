@@ -53,6 +53,7 @@ Toujours lancer Reno AVANT Elena. Elena complete ce que Reno n'a pas couvert.
 | `/mako:add-feature` | Tseng -> [Brainstorm] -> Scarlet (stories) -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
 | `/mako:fix-bug` | [Quick Fix + escalation auto] -> Tseng -> Sephiroth 🔒 -> Hojo -> Reno + Elena -> [Rude si escalade] |
 | `/mako:refactor` | Tseng -> [Brainstorm] -> Reeve (stories) -> [Alignment gate] -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
+| `/mako:onboard` | Tseng (deep scan) -> Reeve (recovery) -> Palmer (docs) -> Sprint init |
 | `/mako:correct-course` | Tseng -> Rufus (SCP + 3 options) -> User decision -> [Adjust/Rollback/Re-plan] -> [Post-verification] |
 | `/mako:rust-security` | Tseng -> Rude (audit) -> Hojo (fix) -> Reno + Elena (tests) -> Rude (re-review) |
 

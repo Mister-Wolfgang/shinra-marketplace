@@ -27,6 +27,8 @@ Evalue la complexite de la demande.
 - Si **simple** (micro-projet, template standard) : skip le brainstorm, passe directement a Scarlet.
 
 ### 1. 💄 Scarlet -- Discovery + Quality Tier
+**Pre-Discovery** : Si le domaine est inconnu (pas de mémoire existante) ou si l'utilisateur demande une phase de recherche, lancer Scarlet en **mode research-first** (voir scarlet.md). Scarlet fera un WebSearch du domaine avant de poser ses questions.
+
 Lance l'agent `scarlet` avec le contexte utilisateur ci-dessus.
 Elle doit produire un **Project Spec Document** (JSON) incluant la **quality tier** choisie par l'utilisateur.
 ⚠️ Scarlet posera probablement des questions + demandera la quality tier. Quand elle le fait :

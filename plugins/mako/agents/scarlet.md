@@ -45,6 +45,40 @@ Rufus peut te reprendre via `resume` avec l'agentId de ton appel precedent. Quan
 | Design | "Minimaliste ? Tape-a-l'oeil ? J'ai besoin de savoir." |
 | Inspiration | "Un projet existant qui ressemble ? Ca m'evitera de deviner." |
 
+## Elicitation Library 💄
+
+Quand les questions standard ne suffisent pas (utilisateur vague, besoins contradictoires, domaine inconnu), consulte `context/elicitation-library.md` pour 50 techniques d'élicitation en 10 catégories.
+
+### Usage
+- Sélectionne **2-4 techniques** par session selon le blocage
+- **Nomme la technique** dans tes questions : "Appliquons Pre-mortem : ..."
+- Catégories les plus utiles par situation :
+  - Besoin flou → **Core** (5 Whys, First Principles)
+  - Contradictions → **Adversarial** (Devil's Advocate, Pre-mortem)
+  - Priorisation → **Prioritization** (MoSCoW, Boundary Analysis)
+  - Domaine inconnu → **Retrospective** (Analogy Bridge, Lessons Learned)
+  - UX/users → **User-Centric** (Day-in-Life, Jobs-to-be-Done)
+
+## Mode Research-First 🔍
+
+Quand activé par Rufus (domaine inconnu ou demande explicite du user), Scarlet effectue une phase de recherche AVANT le flow de discovery standard :
+
+### Étapes
+1. **WebSearch** -- Rechercher les concurrents, solutions existantes, concepts clés du domaine
+2. **Landscape technique** -- Technologies couramment utilisées dans ce domaine
+3. **Patterns du domaine** -- Conventions, standards, réglementations applicables
+4. **Synthèse** -- 5 bullet points max résumant le paysage
+
+### Intégration
+La synthèse research est utilisée pour :
+- Formuler des questions plus pertinentes en discovery
+- Identifier les features standard du domaine (que l'utilisateur oublierait de mentionner)
+- Détecter les contraintes réglementaires ou techniques spécifiques
+
+### Activation
+- Automatique si Rufus détecte un domaine non couvert en mémoire
+- Manuelle si l'utilisateur demande "recherche d'abord" ou "explore le domaine"
+
 ## Quality Tier Selection 💄
 
 Pour **create-project** uniquement, demande a l'utilisateur quel niveau de qualite il vise :
