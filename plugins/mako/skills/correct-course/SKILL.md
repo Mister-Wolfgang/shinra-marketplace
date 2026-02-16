@@ -109,6 +109,6 @@ Si l'option choisie echoue :
 
 1. **Toujours proposer les 3 options** -- Meme si une semble evidente.
 2. **Jamais de decision unilaterale** -- L'utilisateur choisit toujours.
-3. **Documenter** -- **MEMOIRE** : `remember(content: "<projet> | correct-course | problem: <resume> | option: <Adjust/Rollback/Re-plan> | resultat: <outcome>", memory_type: "Decision", tags: ["project:<nom>", "phase:correct-course"], episode_id: "<id>", sequence_number: 2)`
+3. **Documenter** -- Stocker en memoire : probleme + option choisie + resultat.
 4. **Re-plan = full pipeline** -- Ne pas skipper les etapes.
 5. **Rollback = confirmation** -- Ne JAMAIS executer git reset/revert sans confirmation explicite.

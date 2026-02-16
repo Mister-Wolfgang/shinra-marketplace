@@ -5,9 +5,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/ensure-shodh-server.js\"",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/ensure-memory-server.js\"",
             "timeout": 120000,
-            "statusMessage": "🧠 Starting shodh-memory server..."
+            "statusMessage": "🧠 Configuring mcp-memory-service..."
           },
           {
             "type": "command",
