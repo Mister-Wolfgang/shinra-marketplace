@@ -1,6 +1,6 @@
 ![SHINRA -- MAKO](logo.png)
 
-# SHINRA -- MAKO (Modular Agent Kit for Orchestration) v3.0
+# SHINRA -- MAKO (Modular Agent Kit for Orchestration) v4.0
 
 > *"Le pouvoir n'est rien sans controle."* -- Rufus Shinra 👔
 
@@ -69,7 +69,7 @@ Parlez directement a Rufus 👔 -- il analyse votre demande et delegue automatiq
 "Separe la logique du rendu"
 ```
 
-## Features v3.0
+## Features v4.0
 
 ### TDD Protocol 🧪
 
@@ -119,13 +119,14 @@ Sephiroth ne se contente pas de corriger les erreurs -- il modifie les prompts d
 - Fork automatique si l'utilisateur n'a pas les permissions de push
 - Graceful degradation : si `gh` CLI absent, la modification locale reste active
 
-## Memoire Persistante (SHODH)
+## Memoire Persistante (mcp-memory-service)
 
-MAKO integre **shodh-memory** -- serveur Rust local avec memoire cognitive 3-tiers, apprentissage hebbien et knowledge graph.
+MAKO integre **mcp-memory-service** -- service Python avec SQLite-Vec pour la memoire semantique persistante.
 
-- Auto-telecharge et lance au demarrage via hook
-- Memoire episodique : chaque workflow = 1 episode chaine
-- Decay naturel : les memoires frequemment accedees se renforcent, les autres decroissent
+- Recherche hybride BM25 + Vector pour des resultats precis
+- Knowledge graph avec visualisation D3.js (dashboard localhost:8000)
+- Stockage local dans `~/.shinra/` (SQLite)
+- Hook de demarrage automatique avec validation d'installation
 - Seul Rufus touche la memoire -- les subagents n'y ont pas acces
 
 ## Structure
@@ -152,9 +153,9 @@ shinra-mako/
 │   │   ├── rufus.md          # Rufus prompt principal
 │   │   └── rufus-memory-guide.md
 │   ├── hooks/                # Event hooks
-│   │   ├── ensure-shodh-server.js  # Auto-download + lancement SHODH
-│   │   ├── inject-rufus.js         # Injection contexte Rufus
-│   │   ├── pre-commit-check.js     # Verification pre-commit
+│   │   ├── ensure-memory-server.js  # Validation + lancement mcp-memory-service
+│   │   ├── inject-rufus.js          # Injection contexte Rufus
+│   │   ├── pre-commit-check.js      # Verification pre-commit
 │   │   └── hooks.json
 │   ├── skills/               # Slash commands
 │   │   ├── add-feature/
@@ -165,7 +166,6 @@ shinra-mako/
 │   │   ├── modify-project/
 │   │   ├── refactor/
 │   │   └── rust-security/
-│   └── servers/shodh-memory/ # Binaires SHODH (auto-telecharges)
 ├── logo.png
 └── README.md
 ```
