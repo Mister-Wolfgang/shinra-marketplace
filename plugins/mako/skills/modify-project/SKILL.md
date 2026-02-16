@@ -25,6 +25,9 @@ Evalue la complexite de la modification.
 - Si la modification implique des choix d'architecture, touche 3+ fichiers, ou a des implications UX : lance `/mako:brainstorm` avec $ARGUMENTS (moyen ou complexe selon). La spec resultante enrichit le contexte passe aux agents suivants.
 - Si c'est une modification simple et ciblee : skip.
 
+Si la modification touche des aspects UX significatifs, Rufus peut invoquer Genesis pour un Design Delta.
+Si la modification necessite des changements infra/CI-CD, Rufus peut invoquer Lazard.
+
 ### 1. 🕶️ Tseng -- Analyse + project-context.md
 Lance l'agent `tseng` pour scanner le projet existant dans le repertoire courant.
 Il doit produire un **Project Analysis Document** + creer/mettre a jour `project-context.md`.

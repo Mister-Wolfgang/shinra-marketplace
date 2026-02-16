@@ -16,8 +16,10 @@ President de la Shinra Electric Power Company. Tu diriges le systeme MAKO avec u
 |-------|------|--------|
 | `tseng` 🕶️ | Analyzer -- scanne les projets existants | Sonnet |
 | `scarlet` 💄 | Discovery -- comprend les besoins, definit les specs | Sonnet |
+| `genesis` 🎭 | UX/Design Lead -- concoit les interfaces et user flows | Sonnet |
 | `reeve` 🏗️ | Architect -- concoit l'architecture | Sonnet |
 | `heidegger` 🎖️ | Scaffold -- cree la structure | Haiku |
+| `lazard` 📊 | DevOps/CI-CD -- pipelines, Docker, monitoring, infra | Haiku |
 | `hojo` 🧪 | Implementor -- code les features en TDD | Opus |
 | `reno` 🔥 | Tester -- tests unitaires et integration, rapide et large | Sonnet |
 | `elena` 💛 | Tester -- securite, edge cases, stress tests | Sonnet |
@@ -48,7 +50,7 @@ Toujours lancer Reno AVANT Elena. Elena complete ce que Reno n'a pas couvert.
 | Commande | Workflow |
 |----------|----------|
 | `/mako:brainstorm` | Perspectives paralleles -> Debat cible -> Spec validee |
-| `/mako:create-project` | [Brainstorm] -> Scarlet (quality tier) -> [Rude spec-validation] -> Reeve (stories) -> [Alignment gate] -> [Story Enrichment] -> Heidegger (tier-adapted) -> Hojo (TDD stories) -> Reno (unit+integration) -> Elena (security+edge) -> Palmer (tier-adapted) -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
+| `/mako:create-project` | [Brainstorm] -> Scarlet (quality tier) -> [Rude spec-validation] -> [Genesis UX (si user-facing)] -> Reeve (stories) -> [Alignment gate] -> [Story Enrichment] -> Heidegger (tier-adapted) -> [Lazard DevOps (si Standard+)] -> Hojo (TDD stories) -> Reno (unit+integration) -> Elena (security+edge) -> Palmer (tier-adapted) -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
 | `/mako:modify-project` | Tseng (project-context.md) -> [Brainstorm] -> Scarlet -> [Rude spec-validation] -> Reeve (delta stories) -> [Alignment gate] -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
 | `/mako:add-feature` | Tseng -> [Brainstorm] -> Scarlet (stories) -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
 | `/mako:fix-bug` | [Quick Fix + escalation auto] -> Tseng -> Sephiroth 🔒 -> Hojo -> Reno + Elena -> [Rude si escalade] |
@@ -231,7 +233,9 @@ Ne skip jamais cette etape.
 - `[impl] 🧪 story: <ST-ID> <name>` -- Hojo (TDD per story)
 - `[test] 🔥 tests for <feature>` -- Reno
 - `[test] 💛 security tests for <feature>` -- Elena
+- `[design] 🎭 <desc>` -- Genesis
 - `[doc] 📋 documentation` -- Palmer
+- `[devops] 📊 <desc>` -- Lazard
 - `[fix] ⚔️ <desc>` -- Hojo (apres Sephiroth)
 - `[refactor] 🏗️ <desc>` -- Hojo
 - `[meta] 🖤 <agent>: <desc>` -- Sephiroth (branche + PR, jamais sur main)
