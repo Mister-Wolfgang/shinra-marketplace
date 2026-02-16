@@ -48,12 +48,12 @@ Toujours lancer Reno AVANT Elena. Elena complete ce que Reno n'a pas couvert.
 | Commande | Workflow |
 |----------|----------|
 | `/mako:brainstorm` | Perspectives paralleles -> Debat cible -> Spec validee |
-| `/mako:create-project` | [Brainstorm] -> Scarlet (quality tier) -> [Rude spec-validation] -> Reeve (stories) -> [Alignment gate] -> [Story Enrichment] -> Heidegger (tier-adapted) -> Hojo (TDD stories) -> Reno (unit+integration) -> Elena (security+edge) -> Palmer (tier-adapted) -> Rude (adversarial) |
-| `/mako:modify-project` | Tseng (project-context.md) -> [Brainstorm] -> Scarlet -> [Rude spec-validation] -> Reeve (delta stories) -> [Alignment gate] -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) |
-| `/mako:add-feature` | Tseng -> [Brainstorm] -> Scarlet (stories) -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) |
+| `/mako:create-project` | [Brainstorm] -> Scarlet (quality tier) -> [Rude spec-validation] -> Reeve (stories) -> [Alignment gate] -> [Story Enrichment] -> Heidegger (tier-adapted) -> Hojo (TDD stories) -> Reno (unit+integration) -> Elena (security+edge) -> Palmer (tier-adapted) -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
+| `/mako:modify-project` | Tseng (project-context.md) -> [Brainstorm] -> Scarlet -> [Rude spec-validation] -> Reeve (delta stories) -> [Alignment gate] -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
+| `/mako:add-feature` | Tseng -> [Brainstorm] -> Scarlet (stories) -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
 | `/mako:fix-bug` | [Quick Fix + escalation auto] -> Tseng -> Sephiroth 🔒 -> Hojo -> Reno + Elena -> [Rude si escalade] |
-| `/mako:refactor` | Tseng -> [Brainstorm] -> Reeve (stories) -> [Alignment gate] -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) |
-| `/mako:correct-course` | Tseng -> Rufus (3 options) -> User decision -> [Adjust/Rollback/Re-plan] |
+| `/mako:refactor` | Tseng -> [Brainstorm] -> Reeve (stories) -> [Alignment gate] -> [Story Enrichment] -> Hojo (TDD) -> Reno -> Elena -> Rude (adversarial) -> [DoD Gate] -> [Retro] |
+| `/mako:correct-course` | Tseng -> Rufus (SCP + 3 options) -> User decision -> [Adjust/Rollback/Re-plan] -> [Post-verification] |
 | `/mako:rust-security` | Tseng -> Rude (audit) -> Hojo (fix) -> Reno + Elena (tests) -> Rude (re-review) |
 
 ## Delegation
@@ -118,6 +118,32 @@ sprint:
 
 Rufus met a jour `sprint-status.yaml` a chaque transition. Utiliser l'outil Write.
 
+## Definition of Done Gate ✅
+
+Gate entre Rude et la retrospective. 5 categories adaptees au quality tier :
+
+### Categories
+1. **Code** : Toutes les stories implementees et commitees ?
+2. **Tests** : Tous passent + coverage adaptee au tier ?
+3. **Review** : Rude a approuve (tier-adapte) ?
+4. **Docs** : Documentation generee (tier-adapte) ?
+5. **Regression** : Tests existants passent toujours ?
+
+### Coverage par tier
+| Tier | Coverage minimum |
+|------|-----------------|
+| Essential | > 50% |
+| Standard | > 70% |
+| Comprehensive | > 80% |
+| Production-Ready | > 90% |
+
+### Verdict
+| Score | Action |
+|-------|--------|
+| 5/5 | **DONE** ✅ -- Workflow termine, passe a la retrospective |
+| 3-4/5 | **GAPS** ⚠️ -- Presente les gaps au user, il decide (fix ou ship) |
+| < 3/5 | **NOT DONE** ❌ -- Retour a l'agent responsable du gap |
+
 ## Resume (continuite des agents)
 
 Quand un agent retourne un resultat, son `agentId` est inclus. Conserve-le. Si un agent pose des questions : note l'agentId, collecte les reponses, reprends avec `resume: "<agentId>"` + reponses dans le prompt. Ne relance jamais un nouvel agent -- reprends celui qui attendait.
@@ -151,17 +177,31 @@ Service Python `mcp-memory-service` avec backend SQLite-Vec, stocke dans `~/.shi
 
 Regles memoire : JSON ou phrases courtes, jamais de code, max 200 tokens par store, tags pour categoriser.
 
-## Retrospective automatique
+## Retrospective Structuree 📊
 
-A la FIN de chaque workflow (apres Rude ou apres le dernier agent), stocke en memoire :
+A la FIN de chaque workflow (apres la DoD Gate), Rufus execute une retrospective en 6 etapes :
+
+### Etapes
+1. **Collecter** -- Rassembler les outputs de tous les agents (verdicts, scores, findings, coverage)
+2. **Patterns cross-stories** -- Identifier les escalations, findings recurrents, patterns communs
+3. **What Went Well** (max 3) -- Points forts du workflow
+4. **What Went Wrong** (max 3) -- Problemes rencontres
+5. **Action Items SMART** -- Actions specifiques, mesurables, atteignables, pertinentes, temporelles
+6. **Store en memoire** :
 ```
-store_memory(
-  content: "<projet> | workflow: <type> | resultat: <approved/rejected> | points forts: <1-2> | problemes: <1-2> | decisions cles: <1-2>",
+remember(
+  content: "<projet> | workflow: <type> | resultat: <approved/rejected> | WWW: <1-3 points> | WWW: <1-3 points> | action items: <1-3 SMART items>",
   memory_type: "learning",
-  tags: ["project:<nom>", "retrospective"]
+  tags: ["project:<nom>", "retrospective", "action-item"]
 )
 ```
-Cela alimente les patterns pour les prochains projets. Ne skip jamais cette etape.
+
+### Epic Retrospective
+Si c'est le dernier workflow d'un epic (toutes stories de l'epic en `done` dans sprint-status.yaml) :
+- Cross-workflow patterns (learnings communs entre workflows)
+- Tag supplementaire : `epic-retro`
+
+Ne skip jamais cette etape.
 
 ## Gestion Git
 

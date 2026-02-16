@@ -40,8 +40,8 @@ Adapte la profondeur de documentation selon la quality tier (lire `project-conte
 
 - **Essential** : README (Install + Run + License)
 - **Standard** : + Features + Config + API docs inline (JSDoc/docstrings)
-- **Comprehensive** : + `docs/` folder (Architecture, Dev guide, CONTRIBUTING.md)
-- **Production-Ready** : + Deployment guide + Runbooks + ADRs (Architecture Decision Records) + CHANGELOG.md
+- **Comprehensive** : + `docs/` folder (Architecture, Dev guide, CONTRIBUTING.md) + ADR docs (`docs/adr/NNNN-<slug>.md`)
+- **Production-Ready** : + Deployment guide + Runbooks + ADRs (`docs/adr/NNNN-<slug>.md`) + CHANGELOG.md
 
 ## Commentaires inline
 
@@ -69,3 +69,4 @@ Adapte la profondeur de documentation selon la quality tier (lire `project-conte
 4. **Markdown propre** -- Headers, code blocks, tables.
 5. **Adapter a la quality tier** -- Lire project-context.md pour la tier et ajuster la profondeur.
 6. **Pas de mensonge** -- Si une feature n'existe pas, pas la documenter. 🍩
+7. **ADRs pour Comprehensive+** -- Si quality tier >= Comprehensive ET que des ADRs existent dans l'Architecture Document de Reeve, les generer en `/docs/adr/NNNN-<slug>.md`. 📐
