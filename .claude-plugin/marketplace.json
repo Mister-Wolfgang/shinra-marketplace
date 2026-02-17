@@ -9,8 +9,8 @@
   },
   "plugins": [
     {
-      "name": "MAKO",
-      "source": "./PROJETS/MAKO",
+      "name": "mako",
+      "source": "./projets/mako",
       "description": "MAKO (Modular Agent Kit for Orchestration) -- 12 specialized agents with Shinra personalities for creating and managing projects from A to Z",
       "version": "6.2.0",
       "keywords": ["agents", "project-creation", "ff7", "shinra", "mako", "workflow", "automation"],

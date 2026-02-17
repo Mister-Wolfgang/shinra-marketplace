@@ -26,7 +26,7 @@ Marketplace de plugins pour **Claude Code**, opérée par la **Shinra Electric P
 /plugin marketplace add git@github.com:Mister-Wolfgang/claude-code-shinra-marketplace.git
 
 # Installer un plugin spécifique
-/plugin install MAKO@shinra-marketplace
+/plugin install mako@shinra-marketplace
 
 ```
 
@@ -56,9 +56,9 @@ claude-code-shinra-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json      # Registre central des plugins
 ├── .gitmodules               # Définition des pointeurs submodules
-├── PROJETS/
-│   ├── MAKO/                 # Git submodule -> mako-claude-agent-kit
-│   └── JENOVA/               # (À venir)
+├── projets/
+│   ├── mako/                 # Git submodule -> mako-claude-agent-kit
+│   └── jenova/               # (À venir)
 ├── logo.jpg
 └── README.md
 
@@ -72,7 +72,7 @@ claude-code-shinra-marketplace/
 
 ```bash
 # Ajouter le lien distant
-git submodule add git@github.com:Mister-Wolfgang/<NOM-REPO>.git PROJETS/<NOM-PROJET>
+git submodule add git@github.com:Mister-Wolfgang/<NOM-REPO>.git projets/<nom-projet>
 
 # Mettre à jour le registre
 # Éditer .claude-plugin/marketplace.json
@@ -99,7 +99,7 @@ git submodule update --remote --merge
 
 * Migration du monolithe vers une structure multi-repo.
 * Extraction de **MAKO** vers son propre repository dédié.
-* Renommage `plugins/` en `PROJETS/` pour clarification de scope.
+* Renommage `plugins/` en `projets/` pour clarification de scope.
 * Optimisation SEO des noms de repositories.
 
 ---
