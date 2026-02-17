@@ -1,0 +1,3 @@
+[submodule "projects/mako-ai-agents"]
+	path = projects/mako-ai-agents
+	url = git@github.com:Mister-Wolfgang/mako-ai-agents.git
