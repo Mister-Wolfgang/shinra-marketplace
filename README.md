@@ -1,74 +1,105 @@
 ![SHINRA](logo.jpg)
 
-# SHINRA Marketplace v6.1
+# Claude Code Shinra Marketplace
 
-> *"Le pouvoir n'est rien sans controle."* -- Rufus Shinra
+> *"Le pouvoir n'est rien sans contrôle."* -- Rufus Shinra
 
-Marketplace de plugins Claude Code -- propulse par la Shinra Electric Power Company.
-
-Architecture multi-repo : chaque Projet est un plugin independant avec son propre repo, versioning et cycle de vie. SHINRA les assemble via git submodules.
-
-## PROJETS
-
-| Projet | Description | Version | Repo |
-|--------|-------------|---------|------|
-| **MAKO** | Modular Agent Kit for Orchestration -- 13 agents specialises avec personnalites Shinra pour gerer des projets de A a Z | v6.1.0 | [MAKO](https://github.com/Mister-Wolfgang/MAKO) |
-| **JENOVA** | *A venir* | -- | -- |
-
-## Installation
-
-```bash
-# Ajouter la marketplace SHINRA
-/plugin marketplace add git@github.com:Mister-Wolfgang/SHINRA.git
-
-# Installer un plugin
-/plugin install MAKO@shinra-marketplace
-```
-
-> **Note** : Le repo SHINRA utilise des git submodules. Lors du clone manuel, utilisez `--recurse-submodules` :
-> ```bash
-> git clone --recurse-submodules git@github.com:Mister-Wolfgang/SHINRA.git
-> ```
-
-## Structure
-
-```
-SHINRA/
-├── .claude-plugin/
-│   └── marketplace.json         # Registry des plugins
-├── .gitmodules                  # References aux submodules
-├── PROJETS/
-│   ├── MAKO/                    # git submodule -> github.com/Mister-Wolfgang/MAKO
-│   └── JENOVA/                  # (a venir)
-├── logo.png
-└── README.md
-```
-
-## Architecture
-
-Chaque plugin est un **repo Git independant** inclus dans SHINRA via submodule :
-
-- **Versioning independant** -- Chaque plugin a son propre SemVer
-- **CI/CD isolee** -- Un push dans MAKO ne declenche que la CI de MAKO
-- **Ownership claire** -- Issues et PRs ciblees par plugin
-- **Installation selective** -- L'utilisateur installe uniquement ce qu'il veut
-
-### Ajouter un nouveau Projet
-
-```bash
-# Dans le repo SHINRA
-git submodule add git@github.com:Mister-Wolfgang/<PROJET>.git PROJETS/<PROJET>
-# Mettre a jour marketplace.json
-# Commit et push
-```
-
-## Changelog
-
-### v6.1.0 -- Multi-repo
-- Migration vers architecture multi-repo avec git submodules
-- `plugins/` renomme en `PROJETS/`
-- MAKO extrait dans son propre repo independant
+Marketplace de plugins pour **Claude Code**, opérée par la **Shinra Electric Power Company**. Architecture multi-repo optimisée pour l'agilité et le déploiement granulaire via **Git Submodules**.
 
 ---
 
-*Built with Claude Code + Shinra Electric Power Company*
+## 🚀 Plugins Disponibles
+
+| Plugin | Description | Version | Repository |
+| --- | --- | --- | --- |
+| **MAKO** | **Modular Agent Kit for Orchestration** — 13 agents spécialisés (Shinra Personalities) pour le cycle de vie projet (SDLC). | `v6.1.0` | [`mako-claude-agent-kit`]() |
+| **JENOVA** | *Projet de monitoring et mutation de code en temps réel* | `Incoming` | -- |
+
+---
+
+## 🛠 Installation
+
+### Via Claude Code CLI
+
+```bash
+# Ajouter la marketplace SHINRA
+/plugin marketplace add git@github.com:Mister-Wolfgang/claude-code-shinra-marketplace.git
+
+# Installer un plugin spécifique
+/plugin install MAKO@shinra-marketplace
+
+```
+
+### Clone Manuel (Développeurs)
+
+Le repository utilise des **submodules**. L'option `--recurse-submodules` est requise :
+
+```bash
+git clone --recurse-submodules git@github.com:Mister-Wolfgang/claude-code-shinra-marketplace.git
+
+```
+
+---
+
+## 🏗 Architecture Technique
+
+Chaque projet est un repository Git indépendant, permettant :
+
+* **Versioning Atomique** : Chaque plugin suit son propre cycle SemVer.
+* **CI/CD Isolée** : Les tests et builds sont déclenchés par repository.
+* **Installation Sélective** : Déploiement uniquement des composants nécessaires.
+
+### Arborescence
+
+```text
+claude-code-shinra-marketplace/
+├── .claude-plugin/
+│   └── marketplace.json      # Registre central des plugins
+├── .gitmodules               # Définition des pointeurs submodules
+├── PROJETS/
+│   ├── MAKO/                 # Git submodule -> mako-claude-agent-kit
+│   └── JENOVA/               # (À venir)
+├── logo.jpg
+└── README.md
+
+```
+
+---
+
+## 🔧 Maintenance & Contribution
+
+### Ajouter un Projet (Submodule)
+
+```bash
+# Ajouter le lien distant
+git submodule add git@github.com:Mister-Wolfgang/<NOM-REPO>.git PROJETS/<NOM-PROJET>
+
+# Mettre à jour le registre
+# Éditer .claude-plugin/marketplace.json
+
+# Commit & Push
+git add .
+git commit -m "feat: add <NOM-PROJET> to marketplace"
+git push origin main
+
+```
+
+### Mettre à jour les Plugins
+
+```bash
+git submodule update --remote --merge
+
+```
+
+---
+
+## 📜 Changelog
+
+### v6.1.0 — Architecture Multi-repo
+
+* Migration du monolithe vers une structure multi-repo.
+* Extraction de **MAKO** vers son propre repository dédié.
+* Renommage `plugins/` en `PROJETS/` pour clarification de scope.
+* Optimisation SEO des noms de repositories.
+
+---
